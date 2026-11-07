@@ -1,14 +1,12 @@
-CHPC 2025 Student Cluster Competition
+CHPC 2026 Student Cluster Competition
 ========================================
-Benchmarking and Competition instructions for the Center for High Performance Computing (CHPC) 2025 Student Cluster Compettion (SCC). Which is hosted by the National Integrated Cyber Infrastructure Systems (NICIS), a division of the South African Council for Scientific and Industrial Research (CSIR). For 2025 the competition will be held in person at the Century City Convention Center, Cape Town, South Africa.
+Benchmarking and Competition instructions for the Center for High Performance Computing (CHPC) 2026 Student Cluster Compettion (SCC). Which is hosted by the National Integrated Cyber Infrastructure Systems (NICIS), a division of the South African Council for Scientific and Industrial Research (CSIR). For 2026 the competition will be held in person at Stellenbosch University, Western Cape, South Africa.
 
 # Getting Started
 
-The benchmarks were chosen to be compatible with the software environment that you previously setup in the first round of this competition. For this round, you are allowed to install any legally obtained software you wish to run the problems. However, using obscure, nonstandard software may limit the support you receive from the competition organizers.
+The benchmarks were chosen to be compatible with the software environment that you previously setup in the first round of this competition. For this round, you are allowed to install any legally obtained software you wish to run the problems. However, using obscure, nonstandard software may limit the support you receive from the competition team.
 
 You are strongly encouraged to make use of any resource available to you. However, be advised that the competition organizers will provide limited technical support and assistance in building and running your applications.
-
-Team mentors are encouraged to support and motivate their teams. However, they may not do any of the work for the students. They are strictly there to provide guidance and suggestions, and are there to participate in the conference for their own benefit as well.
 
 Team captains will each be issued a competition USB flash drive. This is how the teams may be given input files and how teams will submit their results. Only the Team captain can approach the organizers’ booth, to submit and/or receive any relevant input files. Only one Team captain is allowed at the organizer's booth at any time.
 
@@ -23,47 +21,35 @@ Benchmarks must be submitted by the deadline as specified in the timetable. Resu
 
 It is important to note that only valid submissions will be considered. For a submission to be valid, **all required deliverables** for each of the benchmarks must be met. If a team completes the benchmarks scheduled for a particular day ahead of the deadline, they may submit them and move on to the next set. However, approval from the organizers is mandatory before proceeding, and no new benchmarks may be started until the current set has been validly submitted.
 
-The competition organizers will give teams a general indication of where they should be, in the morning at the beginning of the day, and again in the afternoon at the end of the day.
-
-The competition will end on **Wednesday, 3<sup>rd</sup> of December at 12:00am midday**.
+The competition organizing team will give teams a general indication of where they should be, in the morning at the beginning of the day, and again in the afternoon at the end of the day.
 
 Rulings and decisions from the competition organizers and judges are final.
 
 Good Luck!
 
 # Timetable
-![CHPC2025 Nationals Timetable](CHPC_2025_National_Timetable.png)
+[CHPC2026 Nationals Timetable](CHPC_2026_SCC_National_Meeting_Timetable.pdf)
 
 
 # Scoring
 
 | Application  | Weight | Breakdown                                                                                                                                               |
 |--------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| HPCC & HPCG  | 20%    | <ul><li>HPCC *[7.5%]*<ul><li>High Performance Linpack (HPL) *[5%]*</li></ul><li>HPCG *[7.5%]*</li></ul>                                                 |
-| AmberMD      | 10%    | <ul><li> Benchmark 1 *[3%]*<li>Benchmark 2 *[5%]*<li>Visualization *[2%]*                                                                               |
-| ASCOT5       | 10%    | <ul><li>Benchmark 1 *[3%]* <li>Benchmark 2 <ul><li> Time *[2%]* <li> Thermilization *[2%]* <li> Multinode *[1%]*</ul></li> <li>Verification file *[2%]* |
-| DFTB+        | 10%    | <ul><li> 1000 steps *[2%]*<li> Table *[4%]*<li> 200 000 steps *[4%]*<ul>                                                                                |
-| HemePure     | 10%    | <ul><li> 5000 steps *[2%]*<li> Visualization *[4%]*<li> 100 000 steps *[4%]*<ul>                                                                        |
-| MathWorks    | 10%    | <ul><li>Decisions per second *[10%]*                                                                                                                    |
-| OpenFOAM     | 10%    | <ul><li>Benchmark 0 *[2%]* <li>        Iterations per hour *[6]*        <li> Visualization                                                                                |
-| Project      | 10%    | <ul><li> Mentor's Scores *[5%]*<li> Poster *[5%]*<ul>                                                                                                   |
-| Presentation | 10%    | <ul><li>Judges' Scores *[5%]*<li>Cluster Configurations *[5%]*</ul>                                                                                     |
+| HPCC & HPCG  | 20%    | <ul><li>HPCC *[7.5%]*<ul><li>High Performance Linpack (HPL) *[5%]*</li></ul><li>HPCG *[7.5%]*</li></ul>|
+| IO500      |    |     |
+| SPECFEM3D  |    |     |
+| ECSim      |    |     |
+| WRF        |    |     |
+| Llama.cpp  |    |     |
+| MATLAB     |    |     |
+| ExaHype    |    |     |
 
 # Instructions for Mentors
 
-The role of Mentors and Volunteers is to provide leadership and guidance for the student competitors participating in this year's Center for High Performance Computing 2025 Student Cluster Competition.
+The role of Mentors is to provide leadership and guidance for the student competitors participating in this year's Center for High Performance Computing 2025 Student Cluster Competition.
 
 In preparing your teams for the competition, your main goal is to ensure that you teach and impart knowledge to the student participants in such a way that they are empowered and enable to tackle the problems and benchmarking tasks themselves.
 
-## Hands-Off Rule *(You may not touch the keyboard)*
-
-Under no circumstances whatsoever may mentors touch any competition hardware belonging to either their team, or the competition hardware of another team. Mentors are encouraged to provide guidance and leadership to their *(as well as other)* teams.
-
-Any mentors found to be directly in contravention of this rule, may result in their team incurring a penalty. Repeated infringements may result in possible disqualification of their team.
-
-## Main Conference Participation
-
-In addition to supporting their teams, mentors are also **strongly** encouraged to participate in the Main Conference. There are a number of interesting talks, panels, workshops, tutorials and tracks [sheduled](https://events.chpc.ac.za/event/155/timetable/#20251203) for this year's conference. Coordinate and plan with your teams accordingly, so that you may make the best use of your time here by providing support, as well as enjoying and learning from the conference.
 
 # Cheat Sheet
 
@@ -93,6 +79,3 @@ Below is a table with a number of Linux system commands and utilities that you *
 | proc               | Information and control center of the kernel, providing a communications channel between kernel space and user space. Many of the preceding commands query information provided by proc, i.e. `cat /proc/cpuinfo`. |
 | uname              | Useful for determining information about your current flavor and distribution of your operating system and its version.                                                                                            |
 | lsblk              | Provides information about block devices (disks, hard drives, flash drives, etc) connected to your system and their partitioning schemes.                                                                          
-
-
-[def]: ./CHPC_2025_SCC_National_Timetable.png
