@@ -28,7 +28,7 @@ Rulings and decisions from the competition organizers and judges are final.
 Good Luck!
 
 # Timetable
-[CHPC2026 Nationals Timetable](CHPC_2026_SCC_National_Meeting_Timetable.pdf)
+![CHPC2026 Nationals Timetable](CHPC_2026_SCC_National_Meeting_Timetable.pdf)
 
 
 # Scoring
