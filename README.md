@@ -35,7 +35,7 @@ Good Luck!
 
 | Application  | Weight | Breakdown                                                                                                                                               |
 |--------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| HPCC & HPCG  | 20%    | <ul><li>HPCC *[7.5%]*<ul><li>High Performance Linpack (HPL) *[5%]*</li></ul><li>HPCG *[7.5%]*</li></ul>|
+| HPCC & HPCG  | 20%    | <ul><li>HPCC *[6%]*<ul><li> HPL *[4%]*</li></ul><li>HPCG *[6%]*</li><li>IO500 *[4%]*|
 | IO500      |    |     |
 | SPECFEM3D  |    |     |
 | ECSim      |    |     |
