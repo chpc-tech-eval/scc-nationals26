@@ -13,7 +13,21 @@ Links:
 
 # CHPC SCC 26 Storage Challenge
 
-### Ground rules:
+Networked storage is critical in most HPC clusters and applications.
+
+You aren't expected to have designed your clusters around this, so the idea
+with this challenge is to extract as much performance out of your disks as you
+can. Generally, the disks themselves will be your bottleneck, and the goal is to
+use technology such as RAID or distributed storage to utilise as much of your
+storage hardware as possible.
+
+Scoring is partially weighted by the hardware you have, so even if you don't have
+many disks or one team has an SSD and you don't, you can still win.
+
+## Ground rules:
+- The [submissions rules for the IO500](https://io500.org/rules/submission) generally apply,
+  unless overridden by [the SCC IO500 rules](https://io500.org/rules/scc-submission), unless
+  overridden by the following.
 - We'll be running the ISC26 V2 version of the IO500 benchmark.
 - The target filesystem must be backed by persistent physical storage on your own nodes (HDD, SATA SSD or NVMe).
   Memory-backed filesystems (`tmpfs`, ramdisks) are not allowed. Data must survive a reboot.
@@ -25,22 +39,160 @@ Links:
 - The benchmark sizing and procedure will be designed to avoid RAM-cache-dominated results.
   The data must entirely reach persistent storage.
 - Fault tolerance (e.g. RAID1) is not required.
+- Rules regarding installation and configuration are addressed below.
 
-### What to expect:
-- Both a read/write bandwidth and read/write metadata benchmark will be involved.
-- You will be expected to document how you've set up your system (drive partitioning, 
-  RAID configuration, on-disk filesystems, shared filesystem).
-- Expect to get the most points by using your persistent storage hardware as well as possible
-  within the typical constraints of HPC (persistently-backed, shared, POSIX-compatible file systems).
+## Installation
 
-### Scoring:
-You'll be submitting your benchmark outputs and scores. Your scores will need to be
-reproducible, in case we come around to ask you to replicate the run :)
+A non-exhaustive list of dependencies:
+- a C compiler
+- an MPI implementation
+- `git`
+- `autoconf`
+- `automake`
+- `tar`
 
-As you may not have been designing your clusters with I/O benchmarks in mind your
-scores will be partially weighted by the limitations of your system, so you won't
-win-by-default just for having bought one of the pricey SSDs, but it will help!
-The exact runs and weights will be released later, but you can expect that your
-score will be correlated with how much of your system's total storage bandwidth
-you can leverage and how many metadata operations your cluster can do.
-Weights are TBD, but expect bulk storage bandwidth (GB/s) to be weighed higher than metadata benchmarks (IOP/S).
+```sh
+# clone the repository at the appropriate tag
+git clone -b io500-isc26_v2 https://github.com/IO500/io500.git
+cd io500/
+
+# load your compiler and MPI of choice into PATH/LD_LIBRARY_PATH
+module load gcc
+module load openmpi 
+
+# an example of a basic build with Open MPI
+CC=mpicc ./prepare.sh
+```
+
+Hopefully it finishes with `io500: OK` and has built the benchmark programs. For example,
+
+```
+bin
+├── ior
+├── mdtest
+├── md-workbench
+└── pfind -> ~/io500/build/pfind/pfind
+```
+
+Some of these programs have quite a few options/optional libraries, and you can modify the
+toolchain if you like, but note that your main bottleneck should be your hardware and
+storage clients!
+
+## Configuration
+
+The `io500.sh` script must be used to run the benchmark and produce valid results. 
+
+It's a SLURM script, and you'll want to modify:
+- the SBATCH parameters
+- the configuration ini path
+- the MPI runner and args
+- the setup procedure, if your I/O setup requires it.
+
+
+Here's the extract from the top of the `io500.sh` script to get an idea of what
+you're going to change.
+
+```sh
+#!/bin/bash
+#SBATCH --nodes=3 --ntasks-per-node=2 -p compute
+# Must be across at least 2 nodes!
+
+# INSTRUCTIONS:
+#
+# The only parts of the script that may be modified are:
+#  - SLURM parameters
+#  - INI path, MPI binary, and MPI parameters 
+#  - setup() to configure the directory once before execution
+
+io500_ini="/path/to/config-scc26.ini"
+io500_mpirun="mpirun"
+io500_mpiargs="-np 6" # keep this matched with the SLURM job above
+
+function setup(){
+  local workdir="$1"
+  local resultdir="$2"
+  mkdir -p $workdir $resultdir
+
+  # .... setup commands ...
+  # EDIT ME!
+}
+```
+As for the INI configuration file to use, grab it from [here](./config-scc26.ini)
+and modify the `datadir` as desired to point to your POSIX shared filesystem under
+test. Other parameters labeled "EDIT ME" may be modified, all others must remain
+as-is.
+
+Once you're happy, queue up the SLURM script.
+
+
+## Submission
+
+The following submission files are required:
+- Documentation of:
+  - drive partitioning
+  - RAID configuration
+  - on-disk filesystems
+  - shared filesystem(s)
+  - mounts and mount options
+- Your TAR-gzipped results file (automatically generated by io500.sh)
+  - e.g. `io500-head-2026.11.25-15.57.51`
+
+
+## Scoring
+
+### Overview
+
+More bandwidth is better. More IOPS is better.
+Keep in mind the IO500 itself uses a geometric mean across categories.
+
+Your scores are going to be partially considered as absolute numbers and
+compared against teams, and they'll be partially considered as a ratio of
+the total potential performance given the amount of hardware your team ordered.
+So, if you got the pricey SSDs, that'll help a lot, but you don't automatically win.
+These will be weighed 25/75.
+
+The scoring calculation might look complicated, but keep in mind that 
+your goal is simple, regardless of your storage hardware:
+make use of the disks you have as efficiently as possible. 
+
+### Validity
+
+Validity criteria:
+- Must use `io500-isc26_v2`
+- No IO500 source modifications
+- Runs must occur on two or more nodes to a network-consistent storage.
+- Only configuration fields labeled "EDIT ME" may be modified
+- Must otherwise follows the "Ground Rules" listed above
+
+Invalid submissions may receive partial or zero credit.
+
+Tampered submissions may receive zero credit or disqualification,
+but where in doubt, we'll prefer to ask you to re-produce the results.
+
+### Calculation
+
+If you're interested in the details of how your hardware-adjusted score is
+going to be calculated, this is the plan:
+
+For the final score:
+- `final = 0.75 * norm_relative + 0.25 * norm_absolute`
+- `norm_absolute = absolute / max_absolute` 
+- `absolute = team_io500_score`
+- `norm_relative = sqrt(relative / max_relative)`
+- `relative = bw_team_io500_score / (ssd_count * ssd_bw + hdd_count * hdd_bw) * iops_team_io500_score / fastest_disk_md`
+
+Teams have access to the following storage drives:
+- HDD: _HPE 300GB SAS 12G Mission Critical 10K SFF BC 3-year Warranty Multi Vendor HDD_
+- SSD: _HPE 480GB SATA 6G Mixed Use SFF BC Multi Vendor SSD_
+
+The organisers will determine `ssd_md` and `hdd_md` by running a 
+1-client-NFS on XFS on 1 disk, and IO500 test each.
+If you have an SSD, `fastest_disk_md = ssd_md`.
+If you only have HDDs, `fastest_disk_md = hdd_md`.
+
+The organisers will determine `ssd_bw` and `hdd_bw` in a similar manner
+to the above, using the BW score assigned by IO500 in the same setup
+
+Note that the details are subject to change if necessary to run things
+smoothly and achieve a fair result, but the spirit of the scoring will
+remain as-is.
